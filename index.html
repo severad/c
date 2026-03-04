@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# a .NET - Úvodní hodina | Tvorba RPG Hry</title>
+    <!-- Tailwind CSS pro moderní vzhled bez nutnosti psát vlastní CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Highlight.js pro obarvení kódu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar-link { transition: all 0.2s; }
+        .sidebar-link:hover { padding-left: 1rem; color: #8b5cf6; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col md:flex-row min-h-screen">
+
+    <!-- Levý navigační panel (Sticky) -->
+    <nav class="md:w-64 bg-slate-900 text-slate-300 p-6 md:fixed h-full overflow-y-auto hidden md:block border-r-4 border-violet-500">
+        <h1 class="text-2xl font-bold text-white mb-8 border-b border-slate-700 pb-4">Vývoj v C#<br><span class="text-sm font-normal text-violet-400">Cesta do Arény</span></h1>
+        <ul class="space-y-4 text-sm">
+            <li><a href="#uvod" class="sidebar-link block">1. Cíl pololetí & AI</a></li>
+            <li><a href="#python-vs-csharp" class="sidebar-link block">2. Python vs. C#</a></li>
+            <li><a href="#nastroje" class="sidebar-link block">3. Visual Studio</a></li>
+            <li><a href="#hello-world" class="sidebar-link block">4. Anatomie programu</a></li>
+            <li><a href="#promenne" class="sidebar-link block">5. Proměnné a Vstupy</a></li>
+            <li><a href="#cviceni" class="sidebar-link block text-emerald-400 font-bold mt-8">Cvičení do hodiny</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hlavní obsah -->
+    <main class="md:ml-64 p-8 max-w-5xl">
+        
+        <!-- Header mobil -->
+        <header class="md:hidden bg-slate-900 text-white p-4 rounded-lg mb-6 shadow-lg">
+            <h1 class="text-2xl font-bold">Vývoj v C# - Cesta do Arény</h1>
+        </header>
+
+        <!-- Sekce 1: Úvod -->
+        <section id="uvod" class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">1. Proč jsme tady? (Aneb proč nás AI ještě nenahradila)</h2>
+            <div class="prose max-w-none text-slate-600 text-lg space-y-4">
+                <p>Naším cílem pro toto pololetí není biflovat se poučky. Naším cílem je naprogramovat <strong>plně funkční textovou RPG hru (Arénu)</strong>, kde proti sobě budou bojovat Rytíři, Skřeti a Mágové s různými statistikami a schopnostmi.</p>
+                
+                <div class="bg-violet-50 border-l-4 border-violet-500 p-4 my-6 rounded-r-lg">
+                    <h3 class="text-xl font-bold text-violet-800 mb-2">Slon v místnosti: Umělá inteligence</h3>
+                    <p class="mb-2">Možná si říkáte: <em>"Proč se to učit, když mi kód napíše ChatGPT nebo GitHub Copilot?"</em></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>AI je jako velmi rychlý asistent, který je ale občas úplně mimo.</strong> Vygeneruje vám kód, ale když v něm bude chyba (a ona tam bude), nebo nebude pasovat do vaší hry, bez znalosti základů budete naprosto ztraceni.</li>
+                        <li><strong>Myšlení se vygenerovat nedá.</strong> Programování není o psaní textu. Je to o schopnosti rozbít velký problém (chci vytvořit hru) na sérii malých, logických kroků. Tuto schopnost využijete v jakémkoliv oboru.</li>
+                        <li>Naším cílem je naučit se jazyk C# tak dobře, <strong>abyste mohli AI používat jako profíci</strong> – jako nástroj, který řídíte vy, ne on vás.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekce 2: Python vs C# -->
+        <section id="python-vs-csharp" class="mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">2. Z Pythonu do světa C#</h2>
+            <p class="text-lg text-slate-600 mb-6">Python už znáte. Byl skvělý na začátek, protože nevyžadoval moc příprav. C# je robustnější, profesionální jazyk, na kterém běží velká část bank, firemních systémů, ale i hry (např. engine Unity).</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Python Card -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="bg-blue-100 text-blue-800 font-bold p-3 border-b border-blue-200">🐍 Python (Dynamický a volný)</div>
+                    <div class="p-4">
+                        <pre><code class="language-python"># Nemusím říkat, jaký typ to je
+jmeno = "Ignác"
+vek = 120
+
+# Odsazení určuje blok kódu
+if vek > 100:
+    print("To je ale starý Rytíř!")</code></pre>
+                    </div>
+                </div>
+
+                <!-- C# Card -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="bg-violet-100 text-violet-800 font-bold p-3 border-b border-violet-200">💠 C# (Statický a striktní)</div>
+                    <div class="p-4">
+                        <pre><code class="language-csharp">// Musím přesně říct, co ukládám! (string, int)
+string jmeno = "Ignác";
+int vek = 120;
+
+// Bloky určují chlupaté závorky {} a středníky!
+if (vek > 100) 
+{
+    Console.WriteLine("To je ale starý Rytíř!");
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                <p class="text-amber-800 font-semibold">⚠️ Zlaté pravidlo C#: Na konci (téměř) každého řádku MUST být středník <code>;</code></p>
+            </div>
+        </section>
+
+        <!-- Sekce 3: Visual Studio -->
+        <section id="nastroje" class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">3. Naše zbrojovka: Visual Studio</h2>
+            <p class="text-lg text-slate-600 mb-4">Nebudeme psát kód v Notepadu. Použijeme Visual Studio (pozor, neplést s Visual Studio Code). Je to IDE (Integrované vývojové prostředí).</p>
+            
+            <ol class="list-decimal pl-5 space-y-4 text-slate-700 text-lg">
+                <li>Otevřete <strong>Visual Studio</strong>.</li>
+                <li>Klikněte na <strong>Vytvořit nový projekt (Create a new project)</strong>.</li>
+                <li>Do vyhledávání nahoře napište <code>Konzolová aplikace</code> (nebo <code>Console App</code>). Vyberte tu s logem C#.</li>
+                <li>Pojmenujte projekt např. <code>MojePrvniArena</code>.</li>
+                <li>Nechte zaškrtnuté ".NET 8.0" (nebo nejnovější) a odklikněte "Do not use top-level statements" (Nepoužívat příkazy nejvyšší úrovně) - k tomu se hned dostaneme.</li>
+            </ol>
+        </section>
+
+        <!-- Sekce 4: Hello World / Kostra -->
+        <section id="hello-world" class="mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">4. Anatomie programu v C#</h2>
+            <p class="text-lg text-slate-600 mb-6">C# vás nutí mít ve věcech pořádek od prvního řádku. Každý program musí mít svou obálku.</p>
+            
+            <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg">
+                <div class="bg-slate-800 px-4 py-2 flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="text-slate-400 text-sm ml-2">Program.cs</span>
+                </div>
+                <div class="p-4">
+                    <pre><code class="language-csharp">using System; // Připojí základní knihovny (abychom mohli psát do konzole)
+
+namespace MojePrvniArena // Název složky/prostoru pro náš kód
+{
+    class Program // Třída - hlavní krabice programu
+    {
+        // Metoda Main - TADY PROGRAM ZAČÍNÁ! Sem budeme zatím psát všechen kód.
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Vítej v Aréně, hrdino!"); // Vypíše text a odřádkuje
+            
+            // Zabrání zavření konzole, dokud nezmáčkneme Enter
+            Console.ReadLine(); 
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+            <p class="mt-4 text-slate-600 italic">Jak spustit program? Nahoře ve Visual Studiu klikněte na zelené tlačítko ▶️ Play (nebo klávesa F5).</p>
+        </section>
+
+        <!-- Sekce 5: Proměnné a vstupy -->
+        <section id="promenne" class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">5. Tvorba postavy (Proměnné a Vstupy)</h2>
+            <p class="text-lg text-slate-600 mb-6">Abychom mohli hrát, musíme si ukládat data (zdraví, jméno). V C# se používají typy proměnných:</p>
+            
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <li class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                    <code class="text-blue-600 font-bold">int</code> - celá čísla (životy, síla). <br><span class="text-slate-500 text-sm">Př: int zivoty = 100;</span>
+                </li>
+                <li class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                    <code class="text-blue-600 font-bold">string</code> - text (jméno). <br><span class="text-slate-500 text-sm">Př: string jmeno = "Belzebub";</span>
+                </li>
+                <li class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                    <code class="text-blue-600 font-bold">double</code> - desetinná čísla (zlato). <br><span class="text-slate-500 text-sm">Př: double zlato = 15.5;</span>
+                </li>
+                <li class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                    <code class="text-blue-600 font-bold">bool</code> - pravda/nepravda (žije?). <br><span class="text-slate-500 text-sm">Př: bool jeZivy = true;</span>
+                </li>
+            </ul>
+
+            <h3 class="text-xl font-bold mb-4">Komunikace s hráčem</h3>
+            <div class="bg-slate-900 rounded-xl p-4 shadow-lg mb-4">
+                <pre><code class="language-csharp">Console.Write("Zadej jméno svého hrdiny: "); // Výpis bez odřádkování
+string jmenoHrdiny = Console.ReadLine(); // Přečte text z klávesnice, dokud hráč nedá Enter
+
+// Spojování textu a proměnné (dolar $ před uvozovkami dělá zázraky!)
+Console.WriteLine($"Vítej v aréně, {jmenoHrdiny}! Tvá cesta začíná.");</code></pre>
+            </div>
+            
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-6 rounded-r-lg">
+                <h4 class="text-red-800 font-bold">Pasti pro začátečníky: Čísla z klávesnice</h4>
+                <p class="text-red-700 text-sm mt-1">
+                    <code>Console.ReadLine()</code> <strong>VŽDY</strong> vrací text (string). Pokud chcete po uživateli číslo, musíte text přeložit na číslo (tzv. parsování).
+                </p>
+                <pre><code class="language-csharp mt-2 bg-white/50 p-2 rounded">Console.Write("Zadej sílu (1-10): ");
+string vstupSila = Console.ReadLine();
+int sila = int.Parse(vstupSila); // Přemění text "5" na matematické číslo 5</code></pre>
+            </div>
+        </section>
+
+        <!-- Cvičení -->
+        <section id="cviceni" class="mb-16 p-8 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-xl">
+            <h2 class="text-3xl font-bold mb-4 flex items-center">
+                <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                Samostatná Mise: Generátor postavy
+            </h2>
+            <p class="text-emerald-50 mb-6 text-lg">Vaším prvním úkolem je vytvořit aplikaci, která uvítá hráče, zeptá se ho na vlastnosti postavy a pak vypíše krásný "Průkaz hrdiny".</p>
+            
+            <div class="bg-black/20 p-6 rounded-xl mb-6">
+                <h3 class="font-bold text-xl mb-3 border-b border-white/20 pb-2">Požadavky:</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Program pozdraví a vyzve hráče k vytvoření postavy.</li>
+                    <li>Zeptá se na: <strong>Jméno</strong> (text).</li>
+                    <li>Zeptá se na: <strong>Povolání</strong> (text - např. Rytíř, Skřet, Mág).</li>
+                    <li>Zeptá se na: <strong>Věk</strong> (číslo - nezapomeňte na <code>int.Parse</code>).</li>
+                    <li>Nakonec vypíše hezky naformátovanou tabulku (nebo rámeček pomocí znaků <code>=</code> a <code>|</code>) se všemi údaji.</li>
+                    <li><strong>Bonus pro rychlíky:</strong> Spojte věk s nějakou matematikou (např. vypište: <em>"Do důchodu ti zbývá " + (65 - vek) + " let bojů v Aréně!"</em>).</li>
+                </ul>
+            </div>
+
+            <div class="bg-black text-emerald-400 p-4 rounded-lg font-mono text-sm shadow-inner">
+                <p class="text-gray-400 mb-2">Příklad očekávaného výstupu v konzoli:</p>
+                Vítej v generátoru postav!<br>
+                Zadej jméno hrdiny: Ignác<br>
+                Zadej povolání: Rytíř<br>
+                Zadej věk: 35<br>
+                <br>
+                ============================<br>
+                PRŮKAZ HRDINY<br>
+                ============================<br>
+                Jméno: Ignác<br>
+                Povolání: Rytíř<br>
+                Věk: 35<br>
+                Do důchodu ti zbývá: 30 let.<br>
+                ============================
+            </div>
+        </section>
+
+        <footer class="text-center text-slate-400 text-sm mt-12 pb-8 border-t border-slate-200 pt-8">
+            Vytvořeno pro výuku základů C# | Na konci kurzu z toho bude plně funkční hra.
+        </footer>
+    </main>
+
+</body>
+</html>
