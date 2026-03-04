@@ -1,225 +1,258 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Úvod do C# a .NET | Tvorba informačního systému</title>
-    <!-- Tailwind CSS pro moderní a čistý vzhled -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Highlight.js pro obarvení kódu -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
-    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>C# Lekce 1</title>
+
+    <!-- Reveal.js základní styly -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <!-- Tmavé téma (Blood/Night) - vypadá jako profi vývojářské prostředí -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
+    <!-- Zvýrazňování syntaxe pro C# kód -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+
     <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .sidebar-link { transition: all 0.2s; }
-        .sidebar-link:hover { padding-left: 1rem; color: #0284c7; }
+        /* Drobné úpravy pro lepší čitelnost */
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; color: #42b983; }
+        .reveal h1 { font-size: 2.5em; }
+        .reveal pre { box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-size: 0.65em; }
+        .task-slide { background-color: rgba(66, 185, 131, 0.1); border: 2px dashed #42b983; padding: 20px; border-radius: 15px; }
+        .highlight-text { color: #e96900; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col md:flex-row min-h-screen">
+<body>
+    <div class="reveal">
+        <div class="slides">
 
-    <!-- Levý navigační panel -->
-    <nav class="md:w-64 bg-slate-900 text-slate-300 p-6 md:fixed h-full overflow-y-auto hidden md:block border-r-4 border-sky-600">
-        <h1 class="text-2xl font-bold text-white mb-8 border-b border-slate-700 pb-4">Vývoj v C#<br><span class="text-sm font-normal text-sky-400">Základy a syntaxe</span></h1>
-        <ul class="space-y-4 text-sm">
-            <li><a href="#uvod" class="sidebar-link block">1. Cíl kurzu a využití AI</a></li>
-            <li><a href="#python-vs-csharp" class="sidebar-link block">2. Přechod z Pythonu</a></li>
-            <li><a href="#nastroje" class="sidebar-link block">3. Vývojové prostředí</a></li>
-            <li><a href="#promenne" class="sidebar-link block">4. Proměnné a datové typy</a></li>
-            <li><a href="#vstupy" class="sidebar-link block">5. Vstupy a konverze</a></li>
-            <li><a href="#cviceni" class="sidebar-link block text-sky-400 font-bold mt-8">Samostatná práce</a></li>
-        </ul>
-    </nav>
+            <!-- SLIDE 1 -->
+            <section>
+                <h1>Základy C# a .NET</h1>
+                <h3>Od Pythonu k profesionálnímu vývoji</h3>
+                <p><small>Lekce 1</small></p>
+            </section>
 
-    <!-- Hlavní obsah -->
-    <main class="md:ml-64 p-8 max-w-5xl">
-        
-        <!-- Header mobil -->
-        <header class="md:hidden bg-slate-900 text-white p-4 rounded-lg mb-6 shadow-md">
-            <h1 class="text-2xl font-bold">Vývoj v C# - Základy</h1>
-        </header>
+            <!-- SLIDE 2 -->
+            <section>
+                <h2>Jak počítač čte náš kód?</h2>
+                <ul style="font-size: 0.8em; line-height: 1.5;">
+                    <li class="fragment"><strong>1. Strojový kód:</strong> Procesor zná jen 0 a 1 (např. <code>11010010</code>). Zcela nečitelné.</li>
+                    <li class="fragment"><strong>2. Assembler (ASM):</strong> Instrukce dostaly zkratky (např. <code>ADD</code>, <code>LDA</code>). Pořád složité a závislé na typu procesoru.</li>
+                    <li class="fragment"><strong>3. Kompilované jazyky (C, C++):</strong> Píšeme kód podobný angličtině. Překladač ho najednou celý přeloží do 0 a 1. Velmi rychlé, ale nepřenositelné mezi systémy.</li>
+                    <li class="fragment"><strong>4. Virtuální stroj (C#, Java):</strong> Kód se přeloží do "mezikódu". Až při spuštění programu se mezikód překládá pro konkrétní počítač.</li>
+                </ul>
+            </section>
 
-        <!-- Sekce 1: Úvod -->
-        <section id="uvod" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-            <h2 class="text-3xl font-bold text-slate-900 mb-4">1. Cíl kurzu a moderní vývoj</h2>
-            <div class="prose max-w-none text-slate-600 text-lg space-y-4">
-                <p>Cílem tohoto pololetí je osvojit si základy jazyka C# a platformy .NET. Namísto izolovaných teoretických úloh budeme postupně budovat <strong>komplexní konzolový informační systém</strong> (např. systém pro evidenci zaměstnanců nebo skladové hospodářství). Naučíte se navrhovat architekturu aplikace a pracovat s daty.</p>
+            <!-- SLIDE 3 -->
+            <section>
+                <h2>Rozdíl: C# vs. .NET</h2>
+                <br>
+                <div style="display: flex; justify-content: space-around;">
+                    <div style="width: 45%;">
+                        <h3 style="color: #79c0ff;">C# (C-Sharp)</h3>
+                        <p>Je <strong>programovací jazyk</strong>.<br>Určuje slovník a gramatiku, kterou budeme psát.</p>
+                    </div>
+                    <div style="width: 45%;">
+                        <h3 style="color: #d2a8ff;">.NET</h3>
+                        <p>Je <strong>platforma (motor)</strong>.<br>Poskytuje nám hotové knihovny a stará se o běh našeho kódu (tzv. CLR).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4 -->
+            <section>
+                <h2>Python vs. C#</h2>
+                <p>Zatímco Python je volný, C# má rád pořádek.</p>
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <p><strong>Python</strong></p>
+                        <pre><code class="python" data-trim>
+                        # Nepíšeme datové typy
+                        jmeno = "David"
+                        
+                        # Odsazení dělá blok
+                        if jmeno == "David":
+                            print("Ahoj!")
+                        </code></pre>
+                    </div>
+                    <div style="flex: 1;">
+                        <p><strong>C#</strong></p>
+                        <pre><code class="csharp" data-trim>
+                        // Musíme říct, že jde o text (string)
+                        string jmeno = "David";
+                        
+                        // Bloky dělají závorky {}
+                        if (jmeno == "David")
+                        {
+                            Console.WriteLine("Ahoj!");
+                        } // A pozor na středníky!
+                        </code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5 -->
+            <section>
+                <h2>Anatomie programu</h2>
+                <p>Když založíme nový projekt, uvidíme toto:</p>
+                <pre><code class="csharp" data-trim data-line-numbers="1|3|5|7-10">
+                using System; // Připojí základní nástroje (např. Console)
+
+                namespace MojeAplikace // Název našeho projektu
+                {
+                    class Program // Hlavní krabice
+                    {
+                        static void Main(string[] args) // ZDE PROGRAM ZAČÍNÁ!
+                        {
+                            Console.WriteLine("Ahoj světe!");
+                        }
+                    }
+                }
+                </code></pre>
+                <p><small>(Poznámka: Nové verze .NETu umí tuto "omáčku" schovat, ale pod kapotou tam stále je).</small></p>
+            </section>
+
+            <!-- SLIDE 6 (ÚKOL) -->
+            <section>
+                <div class="task-slide">
+                    <h2>💻 ÚKOL 1: První spuštění</h2>
+                    <ol>
+                        <li>Otevřete <strong>Visual Studio</strong>.</li>
+                        <li>Vytvořte <strong>Konzolovou aplikaci (Console App)</strong>.</li>
+                        <li>Pojmenujte ji např. <code>Lekce1</code>.</li>
+                        <li>Dovnitř metody <code>Main</code> napište kód, který do konzole vypíše: <br><em>"Vítej v kurzu C#!"</em></li>
+                        <li>Spusťte program (zelené tlačítko Play nebo <code>F5</code>).</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- SLIDE 7 -->
+            <section>
+                <h2>Proměnné (Šuplíky v paměti)</h2>
+                <p>V C# musíme na každý šuplík nalepit štítek, <strong>co v něm bude</strong> (Datový typ). Pokud tam dáme něco jiného, program spadne.</p>
                 
-                <div class="bg-slate-50 border-l-4 border-slate-400 p-5 my-6">
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">Role umělé inteligence (AI) ve vývoji</h3>
-                    <p class="mb-3">V současné praxi jsou nástroje jako GitHub Copilot nebo ChatGPT běžnou součástí práce programátora. Je však klíčové si uvědomit:</p>
-                    <ul class="list-disc pl-5 space-y-2 text-base">
-                        <li><strong>AI negeneruje myšlenky, ale kód.</strong> Vyřeší za vás syntaxi (jak se píše cyklus), ale nevyřeší za vás logiku a architekturu (kam ten cyklus umístit a jaká data má zpracovávat).</li>
-                        <li><strong>Odpovědnost nese vývojář.</strong> Vygenerovaný kód obsahuje často chyby nebo neodpovídá kontextu vaší aplikace. Bez hluboké znalosti jazyka a schopnosti kód číst nebudete schopni tyto chyby odhalit a opravit.</li>
-                        <li>Naším cílem je naučit se C# na takové úrovni, abyste AI dokázali využívat jako nástroj, který <strong>řídíte a kontrolujete vy</strong>.</li>
+                <table style="font-size: 0.7em; width: 100%;">
+                    <tr>
+                        <th style="color:#e96900;">Typ</th>
+                        <th>K čemu slouží</th>
+                        <th>Příklad</th>
+                    </tr>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>Celá čísla</td>
+                        <td><code>int vek = 16;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>string</code></td>
+                        <td>Text (do uvozovek)</td>
+                        <td><code>string jmeno = "Karel";</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>Desetinná čísla (s tečkou)</td>
+                        <td><code>double plat = 150.5;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>bool</code></td>
+                        <td>Pravda / Nepravda</td>
+                        <td><code>bool zije = true;</code></td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- SLIDE 8 -->
+            <section>
+                <h2>Výpis proměnných</h2>
+                <p>Když chceme do textu vložit proměnnou, použijeme znak <span class="highlight-text">$</span> (tzv. interpolace textu).</p>
+                <pre><code class="csharp" data-trim>
+                int pocetZamestnancu = 10;
+                string sef = "David";
+
+                // Znak $ nám dovolí používat složené závorky v textu
+                Console.WriteLine($"Firmu vede {sef} a má {pocetZamestnancu} lidí.");
+                </code></pre>
+            </section>
+
+            <!-- SLIDE 9 (ÚKOL) -->
+            <section>
+                <div class="task-slide">
+                    <h2>💻 ÚKOL 2: Proměnné v praxi</h2>
+                    <ol>
+                        <li>Založte si proměnnou typu <code>string</code> a vložte do ní jméno vaší oblíbené postavy/osoby.</li>
+                        <li>Založte si proměnnou typu <code>int</code> a vložte do ní její věk.</li>
+                        <li>Pomocí <code>Console.WriteLine</code> a znaku <code>$</code> vypište větu: <br><em>"Jmenuji se [Jméno] a je mi [Věk] let."</em></li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- SLIDE 10 -->
+            <section>
+                <h2>Vstup od uživatele</h2>
+                <p>Program by měl umět reagovat. K přečtení toho, co uživatel napíše na klávesnici, slouží <code>Console.ReadLine()</code>.</p>
+                <pre><code class="csharp" data-trim>
+                Console.WriteLine("Jak se jmenuješ?");
+                
+                // Program se zastaví a čeká na stisk ENTER
+                string zadaneJmeno = Console.ReadLine(); 
+                
+                Console.WriteLine($"Ahoj {zadaneJmeno}!");
+                </code></pre>
+            </section>
+
+            <!-- SLIDE 11 -->
+            <section>
+                <h2>⚠️ Zrádná čísla (Parsing)</h2>
+                <p><code>Console.ReadLine()</code> čte VŽDY pouze <strong>text (string)</strong>.</p>
+                <p>Text "20" a číslo 20 jsou pro počítač dvě různé věci!</p>
+                <pre><code class="csharp" data-trim>
+                Console.WriteLine("Zadej svůj věk:");
+                
+                // Tímto získáme text (např. "20")
+                string vstupText = Console.ReadLine();
+                
+                // Překlad textu na matematické číslo!
+                int vekCislo = int.Parse(vstupText);
+                
+                // Nyní můžeme s číslem počítat
+                int zbyvaDoDuchodu = 65 - vekCislo;
+                Console.WriteLine($"Do důchodu ti zbývá {zbyvaDoDuchodu} let.");
+                </code></pre>
+            </section>
+
+            <!-- SLIDE 12 (ÚKOL) -->
+            <section>
+                <div class="task-slide">
+                    <h2>💻 ZÁVĚREČNÝ ÚKOL: Registrace</h2>
+                    <p>Vytvořte malý program pro registraci zaměstnance:</p>
+                    <ul style="font-size: 0.8em;">
+                        <li>Zeptejte se uživatele na <strong>Jméno</strong>.</li>
+                        <li>Zeptejte se na <strong>Pracovní pozici</strong>.</li>
+                        <li>Zeptejte se na <strong>Věk</strong> (nezapomeňte převést text na číslo pomocí <code>int.Parse</code>).</li>
+                        <li>Zeptejte se na měsíční <strong>Plat</strong> (opět převést).</li>
+                        <li>Program následně vynásobí plat 12 (roční plat) a vypíše hezky naformátovanou vizitku.</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <!-- Sekce 2: Python vs C# -->
-        <section id="python-vs-csharp" class="mb-16">
-            <h2 class="text-3xl font-bold text-slate-900 mb-6">2. Z Pythonu do světa C#</h2>
-            <p class="text-lg text-slate-600 mb-6">Zatímco Python je dynamicky typovaný jazyk (typ proměnné se určuje za běhu), C# je <strong>staticky typovaný</strong>. To znamená, že musíte vždy přesně deklarovat, jaký typ dat bude proměnná obsahovat. To předchází mnoha chybám ve velkých projektech.</p>
+            </section>
             
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Python Card -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
-                    <div class="bg-slate-100 text-slate-700 font-bold p-3 border-b border-slate-200">Python (Dynamický)</div>
-                    <div class="p-4">
-                        <pre><code class="language-python"># Proměnná může obsahovat cokoliv
-jmeno = "Martin"
-vek = 20
+            <!-- SLIDE 13 -->
+            <section>
+                <h2>Dotazy?</h2>
+                <p>Příště nás čekají podmínky (If / Else) a cykly, abychom mohli kontrolovat, jestli nám uživatel nezadal nesmyslný věk.</p>
+            </section>
 
-print(f"Jmenuje se {jmeno} a je mu {vek}")</code></pre>
-                    </div>
-                </div>
+        </div>
+    </div>
 
-                <!-- C# Card -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
-                    <div class="bg-sky-50 text-sky-800 font-bold p-3 border-b border-sky-100">C# (Statický)</div>
-                    <div class="p-4">
-                        <pre><code class="language-csharp">// Musíme definovat datový typ (string, int)
-string jmeno = "Martin";
-int vek = 20;
-
-Console.WriteLine($"Jmenuje se {jmeno} a je mu {vek}");</code></pre>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-6 bg-amber-50 border-l-4 border-amber-500 p-4">
-                <p class="text-amber-800 font-semibold">Základní pravidlo C#: Každý příkaz musí být ukončen středníkem <code>;</code></p>
-            </div>
-        </section>
-
-        <!-- Sekce 3: Visual Studio -->
-        <section id="nastroje" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-            <h2 class="text-3xl font-bold text-slate-900 mb-4">3. Vývojové prostředí: Visual Studio</h2>
-            <p class="text-lg text-slate-600 mb-4">Pro vývoj v C# budeme využívat IDE (Integrované vývojové prostředí) Visual Studio, které poskytuje pokročilé nástroje pro analýzu kódu a debugging (hledání chyb).</p>
-            
-            <ol class="list-decimal pl-5 space-y-2 text-slate-700 text-lg">
-                <li>Otevřete <strong>Visual Studio</strong>.</li>
-                <li>Zvolte <strong>Vytvořit nový projekt</strong> (Create a new project).</li>
-                <li>Vyberte šablonu <strong>Konzolová aplikace</strong> (Console App) pro C#.</li>
-                <li>Projekt vhodně pojmenujte (např. <code>FiremniSystem</code>).</li>
-                <li>Při volbě frameworku ponechte výchozí nastavení (využijeme moderní přístup tzv. <em>Top-level statements</em>, díky kterému náš kód připomíná Python skripty).</li>
-            </ol>
-        </section>
-
-        <!-- Sekce 4: Proměnné a základní výpis -->
-        <section id="promenne" class="mb-16">
-            <h2 class="text-3xl font-bold text-slate-900 mb-6">4. Proměnné a základní výpis</h2>
-            
-            <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg mb-6">
-                <div class="bg-slate-800 px-4 py-2 flex items-center gap-2">
-                    <span class="text-slate-400 text-sm">Program.cs</span>
-                </div>
-                <div class="p-4">
-                    <pre><code class="language-csharp">// Deklarace a inicializace proměnných
-int age = 20;
-string name = "Martin";
-
-// Základní výpis do konzole
-Console.WriteLine(age);
-Console.WriteLine(name);
-
-// Interpolace textu (vložení proměnných přímo do řetězce pomocí znaku $)
-Console.WriteLine($"Jmenuje se {name} a je mu {age} let.");</code></pre>
-                </div>
-            </div>
-
-            <h3 class="text-xl font-bold mb-3 mt-8">Základní datové typy, které budeme potřebovat:</h3>
-            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <li class="p-4 border border-slate-200 rounded bg-white shadow-sm">
-                    <code class="text-sky-600 font-bold text-lg">int</code><br>
-                    <span class="text-slate-600 text-sm">Celá čísla (věk, počet kusů na skladě)</span>
-                </li>
-                <li class="p-4 border border-slate-200 rounded bg-white shadow-sm">
-                    <code class="text-sky-600 font-bold text-lg">string</code><br>
-                    <span class="text-slate-600 text-sm">Textové řetězce (jméno, název produktu)</span>
-                </li>
-                <li class="p-4 border border-slate-200 rounded bg-white shadow-sm">
-                    <code class="text-sky-600 font-bold text-lg">double</code> / <code class="text-sky-600 font-bold text-lg">decimal</code><br>
-                    <span class="text-slate-600 text-sm">Desetinná čísla (mzda, cena položky)</span>
-                </li>
-                <li class="p-4 border border-slate-200 rounded bg-white shadow-sm">
-                    <code class="text-sky-600 font-bold text-lg">bool</code><br>
-                    <span class="text-slate-600 text-sm">Logická hodnota true/false (je aktivní?, má přístup?)</span>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Sekce 5: Vstupy a konverze -->
-        <section id="vstupy" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-            <h2 class="text-3xl font-bold text-slate-900 mb-6">5. Uživatelský vstup a konverze (Parsování)</h2>
-            <p class="text-lg text-slate-600 mb-6">Informační systém musí umět přijímat data od uživatele. K tomu slouží metoda <code>Console.ReadLine()</code>. Je zde ale jeden zásadní koncept:</p>
-            
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-                <h4 class="text-red-800 font-bold text-lg">Pozor na text vs. číslo</h4>
-                <p class="text-red-700 mt-1">
-                    Vše, co uživatel napíše do konzole, C# vnímá jako text (<code>string</code>), i když zadá "25". Pokud s tímto vstupem chceme počítat, musíme ho překonvertovat na číslo pomocí <code>int.Parse()</code>.
-                </p>
-            </div>
-
-            <div class="bg-slate-900 rounded-xl p-4 shadow-lg mb-4">
-                <pre><code class="language-csharp">// 1. Získání textového vstupu
-Console.Write("Zadejte jméno zaměstnance: "); // Write neprovede odřádkování
-string zamestnanec = Console.ReadLine();
-
-// 2. Získání číselného vstupu vyžaduje konverzi
-Console.Write("Zadejte věk zaměstnance: ");
-string vstupVek = Console.ReadLine(); // Načteme text, např. "30"
-int vekZamestnance = int.Parse(vstupVek); // Převedeme text "30" na číslo 30
-
-// Nyní můžeme provádět matematické operace
-int rokNarozeni = 2024 - vekZamestnance;
-
-Console.WriteLine($"Zaměstnanec {zamestnanec} byl úspěšně zaevidován. Odhadovaný rok narození: {rokNarozeni}.");</code></pre>
-            </div>
-        </section>
-
-        <!-- Cvičení -->
-        <section id="cviceni" class="mb-16 p-8 rounded-xl bg-slate-100 border-l-8 border-sky-600 shadow-md">
-            <h2 class="text-3xl font-bold mb-4 flex items-center text-slate-800">
-                Samostatná práce: Evidenční karta zaměstnance
-            </h2>
-            <p class="text-slate-600 mb-6 text-lg">Rozšiřte náš základní program a vytvořte registrační modul pro nový firemní systém.</p>
-            
-            <div class="bg-white p-6 rounded-lg border border-slate-200 mb-6">
-                <h3 class="font-bold text-xl mb-3 border-b border-slate-100 pb-2 text-slate-800">Požadavky zadání:</h3>
-                <ul class="list-disc pl-5 space-y-2 text-slate-600">
-                    <li>Program vypíše uvítací hlavičku firemního systému.</li>
-                    <li>Program si postupně vyžádá vstupy: <strong>Jméno a příjmení</strong>, <strong>Název pozice</strong> a <strong>Nástupní plat (v celých číslech)</strong>.</li>
-                    <li>Plat musí být korektně převeden na číselný typ (<code>int</code>).</li>
-                    <li>Program vypočítá odhadovanou roční mzdu (nástupní plat vynásobený 12).</li>
-                    <li>Na závěr program naformátuje a přehledně vypíše zadané údaje do podoby "Karty zaměstnance" na obrazovku.</li>
-                </ul>
-            </div>
-
-            <div class="bg-slate-900 text-sky-400 p-5 rounded-lg font-mono text-sm shadow-inner leading-relaxed">
-                <p class="text-slate-400 mb-2">// Očekávaný výstup v konzoli:</p>
-                === HR SYSTÉM v1.0 ===<br>
-                Zadejte jméno zaměstnance: Jan Novák<br>
-                Zadejte pracovní pozici: IT Analytik<br>
-                Zadejte měsíční mzdu (Kč): 45000<br>
-                <br>
-                --- KARTA ZAMĚSTNANCE ---<br>
-                Jméno: Jan Novák<br>
-                Pozice: IT Analytik<br>
-                Měsíční mzda: 45000 Kč<br>
-                Odhadovaný roční náklad: 540000 Kč<br>
-                -------------------------<br>
-                Záznam úspěšně uložen do paměti.
-            </div>
-        </section>
-
-        <footer class="text-center text-slate-400 text-sm mt-12 pb-8 border-t border-slate-200 pt-8">
-            Předmět: Programování a vývoj aplikací | Jazyk C# a platforma .NET
-        </footer>
-    </main>
-
+    <!-- Skripty pro běh Reveal.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: false, // Vypnuto kvůli spouštění v iframe/blob (zabraňuje SecurityError)
+            slideNumber: true, // Zobrazí čísla slidů vpravo dole
+            plugins: [ RevealHighlight ] // Zapne krásné obarvování kódu
+        });
+    </script>
 </body>
 </html>
