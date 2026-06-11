@@ -252,7 +252,7 @@ pre {
 <body>
 
 <div id="progress-container"><div id="progress-bar"></div></div>
-<div id="slide-counter"><span id="slide-counter-text">1 / 50</span></div>
+<div id="slide-counter"><span id="slide-counter-text">1 / X</span></div>
 
 <!-- SLIDE 1: Title -->
 <div class="slide-container active">
@@ -535,6 +535,32 @@ batoh[<span class="num">1</span>] = <span class="str">"Zlato"</span>;</pre>
     </div>
 </div>
 
+<!-- SLIDE 14b: Index od konce -->
+<div class="slide-container">
+    <h2 class="slide-title">🎩 Machrovinka: Index od konce</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Zdlouhavý starý způsob</h3>
+                <p>Dříve jsme pro získání posledního prvku museli zjistit celkovou délku pole a odečíst jedničku (protože počítáme od nuly).</p>
+<pre><span class="kw">string</span>[] batoh = { <span class="str">"Meč"</span>, <span class="str">"Lektvar"</span>, <span class="str">"Zlato"</span> };
+
+<span class="com">// Zdlouhavé zjišťování konce</span>
+<span class="kw">string</span> posledni = batoh[batoh.Length - <span class="num">1</span>];</pre>
+            </div>
+            <div>
+                <h3>Moderní způsob (Stříška ^)</h3>
+                <p>Od verze C# 8.0 můžeme použít operátor <code>^</code>, který se čte jako <strong>"od konce"</strong>.</p>
+<pre><span class="com">// ^1 znamená první prvek od konce</span>
+<span class="kw">string</span> posledni = batoh[^<span class="num">1</span>]; <span class="com">// Zlato</span>
+
+<span class="com">// ^2 znamená druhý prvek od konce</span>
+<span class="kw">string</span> predposledni = batoh[^<span class="num">2</span>]; <span class="com">// Lektvar</span></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- SLIDE 15: Problém s výpisem celého pole -->
 <div class="slide-container">
     <h2 class="slide-title">⚠️ Zrádný výpis pole</h2>
@@ -699,17 +725,14 @@ cisla[<span class="num">0</span>] = <span class="num">42</span>;</pre>
             <div>
                 <h3>Jak generovat náhodná čísla?</h3>
                 <p>Ve hrách i aplikacích často potřebujeme náhodu (hod kostkou, poškození nepřítele, loot).</p>
-                <p>V C# si vytvoříme "generátor" pomocí <code>new Random()</code> a pak z něj taháme čísla metodou <code>Next(min, max)</code>.</p>
+                <p>Od .NET 6 už nemusíme složitě vytvářet generátor (pomocí <code>new Random()</code>). Stačí použít moderní jednorádkový příkaz <code>Random.Shared.Next(min, max)</code>.</p>
             </div>
             <div>
                 <h3>Ukázka: Hod kostkou</h3>
-<pre><span class="com">// Vytvoříme si generátor náhody (stačí jednou)</span>
-<span class="cls">Random</span> kostka = <span class="kw">new</span> <span class="cls">Random</span>();
-
-<span class="com">// Chceme číslo od 1 do 6</span>
+<pre><span class="com">// Získáme náhodné číslo od 1 do 6</span>
 <span class="com">// POZOR: Horní hranice tam už NEPATŘÍ! </span>
 <span class="com">// Proto musíme napsat 7.</span>
-<span class="kw">int</span> hod = kostka.<span class="fnc">Next</span>(<span class="num">1</span>, <span class="num">7</span>);
+<span class="kw">int</span> hod = <span class="cls">Random</span>.Shared.<span class="fnc">Next</span>(<span class="num">1</span>, <span class="num">7</span>);
 
 <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Padlo ti: {hod}"</span>);</pre>
             </div>
@@ -725,8 +748,8 @@ cisla[<span class="num">0</span>] = <span class="num">42</span>;</pre>
             <div class="bullet-list">
                 <ul>
                     <li><i class="fa-solid fa-keyboard"></i> Zeptejte se uživatele: <em>"Kolik čísel chceš vygenerovat?"</em> a načtěte délku.</li>
-                    <li><i class="fa-solid fa-box"></i> Vytvořte prázdné pole <code>int[]</code> o této velikosti a připravte si <code>Random</code> generátor.</li>
-                    <li><i class="fa-solid fa-rotate"></i> Pomocí cyklu <code>for</code> (pracovní cyklus) projděte celé pole a do každého "šuplíku" uložte náhodné číslo (např. od 1 do 100).</li>
+                    <li><i class="fa-solid fa-box"></i> Vytvořte prázdné pole <code>int[]</code> o zadané velikosti.</li>
+                    <li><i class="fa-solid fa-rotate"></i> Pomocí cyklu <code>for</code> (pracovní cyklus) projděte celé pole a do každého "šuplíku" uložte náhodné číslo (pomocí <code>Random.Shared.Next</code>, např. od 1 do 100).</li>
                     <li><i class="fa-solid fa-chart-bar"></i> Vytvořte druhý cyklus, tentokrát <code>foreach</code> (čtecí cyklus). V něm pole projděte a spočítejte si: <strong>součet</strong>, počet <strong>sudých</strong> a <strong>lichých</strong> čísel.</li>
                     <li><i class="fa-solid fa-print"></i> Na konci vypište výsledky, včetně <strong>průměru</strong> vygenerovaných čísel.</li>
                 </ul>
@@ -1243,10 +1266,219 @@ pozdrav()</pre>
 </div>
 
 <!-- ========================================== -->
-<!-- ČÁST 5: OPAKOVÁNÍ PŘED TESTEM              -->
+<!-- ČÁST 5: TUPLES (N-TICE)                    -->
 <!-- ========================================== -->
 
-<!-- SLIDE 45: Section Title OPAKOVÁNÍ -->
+<!-- SLIDE 45: Section Title TUPLES -->
+<div class="slide-container">
+    <div class="section-title-layout">
+        <hr>
+        <h2>N-tice (Tuples)</h2>
+        <p>Jak z metody vrátit více než jednu hodnotu a nezešílet.</p>
+    </div>
+</div>
+
+<!-- SLIDE 46: Co jsou Tuples -->
+<div class="slide-container">
+    <h2 class="slide-title">Problém jedné návratové hodnoty</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Když jedno číslo nestačí</h3>
+                <p>Zatím víme, že metoda umí vrátit pouze <strong>jednu věc</strong> (např. <code>return vysledek;</code>). Co když ale potřebujeme vrátit z metody jméno uživatele <strong>i</strong> jeho věk?</p>
+                <p>V moderním C# (od verze 7.0) na to máme úžasnou zkratku: <strong>Tuples (N-tice)</strong>. Jsou to "batůžky", do kterých hodíte více hodnot najednou pomocí obyčejných kulatých závorek <code>()</code>.</p>
+            </div>
+            <div>
+                <h3>Ukázka: Zabalení dat</h3>
+<pre><span class="com">// Vytvoření Tuple se 3 hodnotami</span>
+<span class="kw">var</span> hrac = (<span class="str">"David"</span>, <span class="num">100</span>, <span class="kw">true</span>);
+
+<span class="com">// Přístup k datům (výchozí názvy jsou Item1, Item2...)</span>
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(hrac.Item1); <span class="com">// Vypíše: David</span>
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(hrac.Item2); <span class="com">// Vypíše: 100</span></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 47: Pojmenované Tuples -->
+<div class="slide-container">
+    <h2 class="slide-title">Pojmenování položek (Pohodlí)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Pryč s Item1 a Item2</h3>
+                <p>Názvy jako <code>Item1</code> jsou v kódu velmi matoucí. Naštěstí můžeme (a měli bychom) položkám v N-tici přiřadit srozumitelná jména.</p>
+                <p>Funguje to pak skoro jako lehká "minitřída", ale bez nutnosti psát zbytečný kód navíc.</p>
+            </div>
+            <div>
+                <h3>Pojmenovaný Tuple</h3>
+<pre><span class="com">// 1. Způsob (pojmenování přímo u hodnot)</span>
+<span class="kw">var</span> zbran = (Nazev: <span class="str">"Meč"</span>, Poskozeni: <span class="num">25</span>);
+
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(zbran.Nazev);
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(zbran.Poskozeni);
+
+<span class="com">// 2. Způsob (s přesně daným datovým typem)</span>
+(<span class="kw">string</span> Mesto, <span class="kw">int</span> Psc) adresa = (<span class="str">"Brno"</span>, <span class="num">60200</span>);</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 48: Návratové typy metod -->
+<div class="slide-container">
+    <h2 class="slide-title">Tuples v Metodách (Jejich hlavní síla!)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Vracíme více hodnot</h3>
+                <p>Místo jednoho typu <code>int</code> nebo <code>string</code> napíšeme do hlavičky metody celou závorku s více typy: <code>(string, int)</code>.</p>
+                <p>Uvnitř metody pak prostě zabalíme výsledky do závorky a použijeme <code>return</code>.</p>
+            </div>
+            <div>
+                <h3>Metoda vracející Tuple</h3>
+<pre><span class="com">// Metoda vrací 2 hodnoty najednou!</span>
+(<span class="kw">string</span> Jmeno, <span class="kw">int</span> Zivoty) <span class="fnc">ZiskejPostavu</span>()
+{
+    <span class="com">// Jakoby vracíme "batůžek"</span>
+    <span class="kw">return</span> (<span class="str">"Hrdina"</span>, <span class="num">100</span>); 
+}
+
+<span class="com">// Zavolání metody</span>
+<span class="kw">var</span> postava = <span class="fnc">ZiskejPostavu</span>();
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(postava.Jmeno);</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 49: Dekonstrukce a zahazování -->
+<div class="slide-container">
+    <h2 class="slide-title">Dekonstrukce a Zahazování (Discards)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Rozbalení batůžku</h3>
+                <p>Někdy nechceme ukládat celý Tuple do jedné proměnné. Chceme ho <strong>rovnou rozbalit</strong> do samostatných proměnných.</p>
+                <p><strong>A co když nás nějaká hodnota nezajímá?</strong> C# má speciální znak podtržítka <code>_</code> (tzv. discard). Počítači tím říkáme: <em>"Tuhle hodnotu rovnou zahoď, nebudu ji potřebovat."</em></p>
+            </div>
+            <div>
+                <h3>Rozbalení do proměnných</h3>
+<pre><span class="com">// Z metody dostaneme jméno a životy</span>
+<span class="com">// Rovnou je "rozbalíme" do 2 proměnných</span>
+<span class="kw">var</span> (jmenoHrdiny, hp) = <span class="fnc">ZiskejPostavu</span>();
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(hp); 
+
+<span class="com">// Chci jen jméno, životy mě nezajímají (zahodím je)</span>
+<span class="kw">var</span> (jenJmeno, _) = <span class="fnc">ZiskejPostavu</span>();
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(jenJmeno);</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 50: Úkoly 1 a 2 -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #3498db; background-color: rgba(52, 152, 219, 0.05);">
+            <h3 style="color: #3498db;">💻 ZÁKLADY TUPLES</h3>
+            
+            <p style="color: #ffffff; font-weight: bold; margin-top: 10px;">ÚKOL 1: Osobní vizitka</p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Vytvořte pojmenovaný Tuple pro uživatele (Jméno, Věk, Město).</li>
+                <li>Hodnoty rovnou vyplňte svými údaji. Vypište je do konzole.</li>
+                <li><i class="fa-solid fa-lightbulb" style="color:#f1c40f;"></i> <em>Nápověda: <code>var ja = (Jmeno: "Karel", Vek: 18, Mesto: "Praha");</code></em></li>
+            </ul>
+
+            <p style="color: #ffffff; font-weight: bold;">ÚKOL 2: Min a Max (Klasický problém)</p>
+            <ul style="font-size: 18px;">
+                <li>Vytvořte metodu <code>NajdiMinMax(int a, int b, int c)</code>, která převezme 3 čísla a vrátí Tuple <code>(int nejmensi, int nejvetsi)</code>.</li>
+                <li>V metodě zjistěte, které je nejmenší a největší (pomocí <code>if</code> nebo matematických funkcí) a vraťte je: <code>return (min, max);</code>.</li>
+                <li>Zavolejte ji v hlavním programu a vypište výsledek!</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 51: Řešení Úkolu 2 -->
+<div class="slide-container">
+    <h2 class="slide-title">Řešení: Min a Max</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Jak na to?</h3>
+                <p>Nejprve si do <code>min</code> i <code>max</code> uložíme první číslo (a).</p>
+                <p>Pak ho pomocí jednoduchých <code>if</code> podmínek porovnáme se zbytkem. Pokud najdeme menší číslo, přepíšeme <code>min</code>. Pokud najdeme větší, přepíšeme <code>max</code>.</p>
+                <p>Na konci metodu obalíme do kulatých závorek <code>return (min, max);</code> a máme hotovo!</p>
+            </div>
+            <div>
+                <h3>Kód řešení</h3>
+<pre><span class="com">// 1. HLAVNÍ PROGRAM</span>
+<span class="kw">var</span> vysledek = <span class="fnc">NajdiMinMax</span>(<span class="num">2</span>, <span class="num">4</span>, <span class="num">1</span>);
+<span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Nejmenší: {vysledek.nejmensi}, Největší: {vysledek.nejvetsi}"</span>);
+
+<span class="com">// 2. DEFINICE METODY</span>
+(<span class="kw">int</span> nejmensi, <span class="kw">int</span> nejvetsi) <span class="fnc">NajdiMinMax</span>(<span class="kw">int</span> a, <span class="kw">int</span> b, <span class="kw">int</span> c) 
+{
+    <span class="kw">int</span> min = a;
+    <span class="kw">int</span> max = a;
+    
+    <span class="kw">if</span> (b < min) min = b;
+    <span class="kw">if</span> (c < min) min = c;
+    
+    <span class="kw">if</span> (b > max) max = b;
+    <span class="kw">if</span> (c > max) max = c;
+    
+    <span class="kw">return</span> (min, max);
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 52: Úkoly 3 a 4 -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #9b59b6; background-color: rgba(155, 89, 182, 0.05);">
+            <h3 style="color: #9b59b6;">🚀 PRAXE Z REÁLNÉHO SVĚTA</h3>
+            
+            <p style="color: #ffffff; font-weight: bold; margin-top: 10px;">ÚKOL 3: GPS Souřadnice</p>
+            <ul style="font-size: 18px; margin-bottom: 20px;">
+                <li>Napište metodu <code>ZiskejLokaci()</code>, která ze senzorů (v našem případě natvrdo v kódu) vrátí Tuple s dvěma desetinnými čísly <code>(double lat, double lon)</code> - zeměpisnou šířku a délku.</li>
+                <li>V hlavním programu Tuple <strong>dekonstruujte</strong> (rozbalte do proměnných <code>sirka</code> a <code>delka</code>) a vypište je.</li>
+            </ul>
+
+            <p style="color: #ffffff; font-weight: bold;">ÚKOL 4: Databáze produktů (s discardem)</p>
+            <ul style="font-size: 18px;">
+                <li>Napište metodu <code>HledejProdukt(int id)</code>, která vrací Tuple: <code>(string nazev, int cena, bool skladem)</code>. Vraťte v ní nějaká fiktivní data (např. "Klávesnice", 500, true).</li>
+                <li>V hlavním programu metodu zavolejte, ale pomocí podtržítka <code>_</code> <strong>zahoďte informaci o tom, zda je skladem</strong>. Uložte si jen název a cenu a ty vypište!</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 53: Úkol 5 (Boss Fight) -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #e74c3c; background-color: rgba(231, 76, 60, 0.05);">
+            <h3 style="color: #e74c3c;">⚔️ ÚKOL 5 (VÝZVA): Herní útok</h3>
+            <div class="bullet-list">
+                <ul>
+                    <li>Propojíme všechno dohromady! Napište metodu <code>VykonejUtok()</code>, která vrátí Tuple <code>(int poskozeni, bool jeKriticky)</code>.</li>
+                    <li>Uvnitř metody použijte <code>Random.Shared.Next(10, 25)</code> pro výpočet poškození. Pokud padne číslo větší než 20, nastavte proměnnou <code>jeKriticky</code> na <code>true</code>. Obě hodnoty vraťte pomocí <code>return</code>.</li>
+                    <li>V hlavním programu udělejte cyklus <code>for</code> pro 5 kol útoku. V každém kole zavolejte metodu, dekonstruujte (rozbalte) Tuple a pomocí <code>if</code> vypište: <br><em>"Zásah za 15 bodů."</em> NEBO <em>"KRITICKÝ ZÁSAH za 22 bodů!!!"</em></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- ČÁST 6: OPAKOVÁNÍ PŘED TESTEM              -->
+<!-- ========================================== -->
+
+<!-- SLIDE 54: Section Title OPAKOVÁNÍ -->
 <div class="slide-container">
     <div class="section-title-layout">
         <hr>
@@ -1255,14 +1487,14 @@ pozdrav()</pre>
     </div>
 </div>
 
-<!-- SLIDE 46: Task 12 (Hádej číslo) -->
+<!-- SLIDE 55: Task 12 (Hádej číslo) -->
 <div class="slide-container">
     <div class="content-area">
         <div class="task-box" style="border-color: #3498db; background-color: rgba(52, 152, 219, 0.05);">
             <h3 style="color: #3498db;">🎯 ÚKOL 12: Hádej číslo (Logika a Cykly)</h3>
             <div class="bullet-list">
                 <ul>
-                    <li><i class="fa-solid fa-dice" style="color: #3498db;"></i> Pomocí <code>Random</code> vygenerujte jedno tajné číslo od 1 do 100.</li>
+                    <li><i class="fa-solid fa-dice" style="color: #3498db;"></i> Pomocí <code>Random.Shared.Next</code> vygenerujte jedno tajné číslo od 1 do 100.</li>
                     <li><i class="fa-solid fa-rotate" style="color: #3498db;"></i> Vytvořte cyklus <code>while</code>, který se bude opakovat, dokud uživatel tajné číslo neuhodne.</li>
                     <li><i class="fa-solid fa-code-branch" style="color: #3498db;"></i> Pokud uživatel zadá špatné číslo, poraďte mu pomocí <code>if/else</code>: <em>"Hledané číslo je větší!"</em> nebo <em>"Hledané číslo je menší!"</em></li>
                     <li><i class="fa-solid fa-stopwatch" style="color: #3498db;"></i> <strong>Bonus:</strong> Přidejte proměnnou <code>pocetPokusu</code>. Kdykoliv uživatel hádá, zvyšte ji o 1. Na konci vypište: <em>"Uhodl jsi to na 5. pokus!"</em></li>
@@ -1272,23 +1504,27 @@ pozdrav()</pre>
     </div>
 </div>
 
-<!-- SLIDE 47: Task 13 (Metody) -->
+<!-- SLIDE 56: Task 13 (Metody) -->
 <div class="slide-container">
     <div class="content-area">
         <div class="task-box" style="border-color: #9b59b6; background-color: rgba(155, 89, 182, 0.05);">
             <h3 style="color: #9b59b6;">🏋️ ÚKOL 13: Metodová rozcvička</h3>
             <div class="bullet-list">
                 <ul>
-                    <li><i class="fa-solid fa-code" style="color: #9b59b6;"></i> Vytvořte metodu <code>int VetsiCislo(int a, int b)</code>. Metoda pomocí podmínky <code>if</code> zjistí, které číslo je větší, a pomocí <code>return</code> ho vrátí.</li>
-                    <li><i class="fa-solid fa-shield" style="color: #9b59b6;"></i> Vytvořte metodu <code>bool JePlnolety(int vek)</code>. Metoda vrátí <code>true</code>, pokud je věk >= 18, jinak vrátí <code>false</code>.</li>
-                    <li><i class="fa-solid fa-play" style="color: #9b59b6;"></i> V hlavním programu si vyžádejte od uživatele čísla/věk, obě metody zavolejte a jejich vrácené výsledky vypište do konzole.</li>
+                    <li><i class="fa-solid fa-code" style="color: #9b59b6;"></i> Vytvořte metodu <code>int VetsiCislo(int a, int b)</code>. Metoda pomocí <code>if</code> zjistí, které číslo je větší, a vrátí ho pomocí <code>return</code>.</li>
+                    <li><i class="fa-solid fa-shield" style="color: #9b59b6;"></i> Vytvořte metodu <code>void ZjistiOpravneni(int vek)</code>. Použijte <code>switch</code> a vypište práva:
+                        <br><span style="font-size: 0.9em;">• <code>case < 15:</code> Nesmí řídit.</span>
+                        <br><span style="font-size: 0.9em;">• <code>case <= 17:</code> Smí řídit malou motorku.</span>
+                        <br><span style="font-size: 0.9em;">• <code>case >= 18:</code> Smí řídit auto.</span>
+                    </li>
+                    <li><i class="fa-solid fa-play" style="color: #9b59b6;"></i> V hlavním programu si vyžádejte od uživatele čísla/věk a obě metody zavolejte.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- SLIDE 48: Task 14 (Úkolníček) -->
+<!-- SLIDE 57: Task 14 (Úkolníček) -->
 <div class="slide-container">
     <div class="content-area">
         <div class="task-box" style="border-color: #e67e22; background-color: rgba(230, 126, 34, 0.05);">
@@ -1305,19 +1541,380 @@ pozdrav()</pre>
     </div>
 </div>
 
-<!-- SLIDE 49: End -->
+<!-- SLIDE 58: Bonus pro experty -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #e74c3c; background-color: rgba(231, 76, 60, 0.05);">
+            <h3 style="color: #e74c3c;">🔥 BONUS: Inženýrské výzvy pro experty</h3>
+            <p style="color: #c9d1d9; margin-bottom: 25px;">Máte vše hotovo? Vyberte si jednu z těchto výzev z praxe a zkuste navrhnout algoritmus.</p>
+            <div class="bullet-list">
+                <ul style="font-size: 0.9em;">
+                    <li style="margin-bottom: 20px;"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c; top: 0px;"></i> <strong>1. Chytrý bankomat (Greedy algoritmus):</strong> Napište metodu, která dostane částku k vrácení (např. 234) a pomocí cyklu a pole platidel <code>{ 500, 200, 100, 50, 20, 10, 5, 2, 1 }</code> vypíše, co má automat vrátit, aby použil co nejméně mincí (např. 1x 200, 1x 20, 1x 10, 2x 2).</li>
+                    <li style="margin-bottom: 20px;"><i class="fa-solid fa-file-zipper" style="color: #e74c3c; top: 0px;"></i> <strong>2. RLE Komprese textu (Jak funguje ZIP):</strong> Napište metodu, která zkomprimuje text. Pokud do ní pošlete <code>"AAAAABBBCCDAA"</code>, metoda text projde, spočítá stejné znaky za sebou a vrátí zkrácenou verzi <code>"5A3B2C1D2A"</code>.</li>
+                    <li style="margin-bottom: 20px;"><i class="fa-solid fa-shield-halved" style="color: #e74c3c; top: 0px;"></i> <strong>3. Validátor síly hesla:</strong> Napište metodu <code>OhodnotHeslo(string heslo)</code>, která prozkoumá text a vrátí počet bodů (0 až 5). Bod je za: délku > 8, malé písmeno, velké písmeno, číslo a speciální znak. <em>(Tip: prozkoumejte typ <code>char</code>)</em>.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 59: End Basic Part -->
 <div class="slide-container">
     <div class="qa-layout">
         <h2 style="font-size: 65px; color: #42b983; margin-bottom: 20px;">Jste připraveni!</h2>
-        <p style="text-align: center;">Pokud jste zvládli dnešní úkoly, základy C# máte v malíčku.</p>
+        <p style="text-align: center;">Pokud jste zvládli dnešní úkoly, procedurální základy C# máte v malíčku.</p>
         <div class="contact-info" style="text-align: center; margin-top: 40px; color: #8b949e;">
-            Hodně štěstí u testu!
+            Založeno, pochopeno, naprogramováno.
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- ČÁST 7: OBJEKTOVĚ ORIENTOVANÉ PROGRAMOVÁNÍ -->
+<!-- ========================================== -->
+
+<!-- SLIDE 60: Section Title OOP -->
+<div class="slide-container">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Svět v Objektech (Úvod do OOP)</h2>
+        <p>Opouštíme jednoduché skripty a tvoříme provázaný virtuální svět.</p>
+    </div>
+</div>
+
+<!-- SLIDE 61: Bolest paralelních polí -->
+<div class="slide-container">
+    <h2 class="slide-title">Proč už nám nestačí to, co známe?</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Peklo s paralelními poli</h3>
+                <p>Představte si hru. Chceme uložit auta (značka, SPZ, stav motoru). Dosud bychom to dělali přes pole:</p>
+<pre><span class="kw">string</span>[] znacky = { <span class="str">"Škoda"</span>, <span class="str">"Ferrari"</span> };
+<span class="kw">string</span>[] spzky = { <span class="str">"1B2 3456"</span>, <span class="str">"ABC 0001"</span> };
+<span class="kw">bool</span>[] motoryBezi = { <span class="kw">false</span>, <span class="kw">true</span> };</pre>
+            </div>
+            <div>
+                <h3>Co je na tom špatně?</h3>
+                <p>Když se jedno pole omylem posune, Škodovce bude najednou běžet motor Ferrari.</p>
+                <p>Navíc, jak zajistíme, aby auto "umělo jet"? Do pole narveme jen hloupá data, ne <strong>chování</strong> (akce a metody).</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 62: Nákres vs Dům -->
+<div class="slide-container">
+    <h2 class="slide-title">Nákres vs. Konkrétní Auto (Třída vs. Objekt)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Třída (Class) = Výrobní nákres</h3>
+                <p>Třída je jen plánek (razítko). Říká, z čeho se auto skládá. Do nákresu nenastoupíš.</p>
+<pre><span class="kw">public class</span> <span class="cls">Auto</span> 
+{
+    <span class="kw">public string</span> Znacka;
+    <span class="kw">public string</span> SPZ;
+    <span class="kw">public bool</span> Nastartovano = <span class="kw">false</span>;
+}</pre>
+            </div>
+            <div>
+                <h3>Objekt (Instance) = Skutečné auto</h3>
+                <p>Objekt je už konkrétní, fyzické auto v paměti. Vytváříme ho klíčovým slovem <code>new</code>.</p>
+<pre><span class="com">// Vytvoření auta a rovnou nastavení hodnot</span>
+<span class="cls">Auto</span> auto1 = <span class="kw">new</span> <span class="cls">Auto</span> { 
+    Znacka = <span class="str">"Škoda"</span>, 
+    SPZ = <span class="str">"1B2 3456"</span> 
+};</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 63: Metody ve Třídě -->
+<div class="slide-container">
+    <h2 class="slide-title">Objekty mají chování (Metody)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Auto, které se samo nastartuje</h3>
+                <p>Největší síla OOP: Metody vkládáme <strong>přímo do třídy</strong>. Metoda pak pracuje s daty toho konkrétního auta, které ji zavolá.</p>
+                <p>Auto tak umí samo změnit svůj vnitřní stav (proměnnou <code>Nastartovano</code>).</p>
+            </div>
+            <div>
+                <h3>Metody v naší třídě Auto</h3>
+<pre><span class="kw">public void</span> <span class="fnc">Nastartuj</span>()
+{
+    Nastartovano = <span class="kw">true</span>;
+    <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Motor {SPZ} nastartován."</span>);
+}
+
+<span class="kw">public void</span> <span class="fnc">VypniMotor</span>()
+{
+    Nastartovano = <span class="kw">false</span>;
+    <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Motor {SPZ} zhasl."</span>);
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 64: Propojování objektů -->
+<div class="slide-container">
+    <h2 class="slide-title">Propojování objektů (Hráč a Auto)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Jak hráč nastoupí do auta?</h3>
+                <p>Datovým typem proměnné nemusí být jen <code>int</code> nebo <code>string</code>. Může to být <strong>naše vlastní třída</strong>!</p>
+                <p>Hráč tak může mít ve svém batohu "odkaz" na konkrétní auto, do kterého zrovna nasedl.</p>
+            </div>
+            <div>
+                <h3>Třída Player (Hráč)</h3>
+<pre><span class="kw">public class</span> <span class="cls">Player</span>
+{
+    <span class="kw">public string</span> Username;
+    <span class="com">// Hráč "drží" uvnitř sebe objekt Auta!</span>
+    <span class="kw">public</span> <span class="cls">Auto</span> AktualniAuto; 
+
+    <span class="kw">public void</span> <span class="fnc">NasedniDo</span>(<span class="cls">Auto</span> auto)
+    {
+        AktualniAuto = auto;
+        <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Nastoupil do {auto.SPZ}"</span>);
+    }
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 65: Vše dohromady -->
+<div class="slide-container">
+    <h2 class="slide-title">Hlavní program (Spojení všeho do akce)</h2>
+    <div class="content-area">
+<pre><span class="com">// --- HLAVNÍ PROGRAM (Top-Level) ---</span>
+
+<span class="com">// 1. Vytvoření auta v našem světě</span>
+<span class="cls">Auto</span> auto1 = <span class="kw">new</span> <span class="cls">Auto</span> { Znacka = <span class="str">"Škoda"</span>, SPZ = <span class="str">"1B2 3456"</span> };
+
+<span class="com">// 2. Vytvoření hráče</span>
+<span class="cls">Player</span> hrac = <span class="kw">new</span> <span class="cls">Player</span> { Username = <span class="str">"Arnost"</span> };
+
+<span class="com">// 3. Akce: Hráč nastoupí do auta</span>
+hrac.<span class="fnc">NasedniDo</span>(auto1);
+
+<span class="com">// 4. Nastartování (hráč použije metodu svého auta)</span>
+hrac.AktualniAuto.<span class="fnc">Nastartuj</span>();</pre>
+    </div>
+</div>
+
+<!-- SLIDE 65b: Kompletní kód ke zkopírování -->
+<div class="slide-container">
+    <h2 class="slide-title">Kompletní kód (Jak to vypadá ve skriptu)</h2>
+    <div class="content-area">
+        <p style="color: #c9d1d9; margin-bottom: 15px;">Všimněte si, že hlavní program je nahoře a definice tříd jsou až dole (stejně jako u metod).</p>
+<pre style="font-size: 16px; overflow-y: auto; max-height: 460px;"><span class="com">// === 1. HLAVNÍ PROGRAM ===</span>
+<span class="cls">Auto</span> auto1 = <span class="kw">new</span> <span class="cls">Auto</span> { Znacka = <span class="str">"Škoda"</span>, SPZ = <span class="str">"1B2 3456"</span> };
+<span class="cls">Player</span> hrac = <span class="kw">new</span> <span class="cls">Player</span> { Username = <span class="str">"Arnost"</span> };
+
+hrac.<span class="fnc">NasedniDo</span>(auto1);
+hrac.AktualniAuto.<span class="fnc">Nastartuj</span>();
+
+<span class="com">// === 2. DEFINICE TŘÍD ===</span>
+<span class="kw">public class</span> <span class="cls">Auto</span> 
+{
+    <span class="kw">public string</span> Znacka;
+    <span class="kw">public string</span> SPZ;
+    <span class="kw">public bool</span> Nastartovano = <span class="kw">false</span>;
+
+    <span class="kw">public void</span> <span class="fnc">Nastartuj</span>()
+    {
+        Nastartovano = <span class="kw">true</span>;
+        <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Motor {SPZ} nastartován."</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Player</span>
+{
+    <span class="kw">public string</span> Username;
+    <span class="kw">public</span> <span class="cls">Auto</span> AktualniAuto; 
+
+    <span class="kw">public void</span> <span class="fnc">NasedniDo</span>(<span class="cls">Auto</span> auto)
+    {
+        AktualniAuto = auto;
+        <span class="cls">Console</span>.<span class="fnc">WriteLine</span>(<span class="str">$"Nastoupil do {auto.SPZ}"</span>);
+    }
+}</pre>
+    </div>
+</div>
+
+<!-- SLIDE 66: Task 15 (První Třídy - Knihovna) -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #3498db; background-color: rgba(52, 152, 219, 0.05);">
+            <h3 style="color: #3498db;">💻 ÚKOL 15: Městská Knihovna</h3>
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-book" style="color: #3498db;"></i> Na úplný konec souboru vytvořte třídu <code>Kniha</code>. Bude mít <code>Nazev</code>, <code>Autor</code> a důležitou vlastnost <code>bool JePujcena = false;</code></li>
+                    <li><i class="fa-solid fa-user" style="color: #3498db;"></i> Vytvořte třídu <code>Ctenar</code>. Bude mít své <code>Jmeno</code> a "batoh" na knihu (proměnnou typu <code>Kniha</code> s názvem např. <code>VypujcenaKniha</code>).</li>
+                    <li><i class="fa-solid fa-hand-holding" style="color: #3498db;"></i> Třídě Čtenář vytvořte metodu <code>PujcSiKnihu(Kniha k)</code>. Uvnitř metody si čtenář knihu uloží do batohu a rovnou jí <strong>změní stav</strong> (<code>k.JePujcena = true;</code>).</li>
+                    <li><i class="fa-solid fa-play" style="color: #3498db;"></i> V hlavním programu (nahoře) založte 2 knihy, 1 čtenáře a nechte ho si jednu knihu půjčit! Pak zkuste vypsat stav <code>JePujcena</code> u obou knih.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 67: End OOP Part 1 -->
+<div class="slide-container">
+    <div class="qa-layout">
+        <h2 style="font-size: 65px; color: #42b983; margin-bottom: 20px;">Vítejte v Objektovém světě!</h2>
+        <p style="text-align: center;">Váš kód už nejsou jen řádky textu, ale ekosystém navzájem komunikujících objektů.</p>
+        <div class="contact-info" style="text-align: center; margin-top: 40px; color: #8b949e;">
+            Základy hotovy. Vaše aplikace konečně ožívá.
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- ČÁST 8: TVORBA OKENNÍCH APLIKACÍ (GUI)     -->
+<!-- ========================================== -->
+
+<!-- SLIDE 68: Section Title GUI -->
+<div class="slide-container">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Okenní aplikace (GUI)</h2>
+        <p>Opouštíme černou konzoli. Jdeme tvořit skutečná okna a tlačítka!</p>
+    </div>
+</div>
+
+<!-- SLIDE 69: Jak na okna ve VS -->
+<div class="slide-container">
+    <h2 class="slide-title">Jak na to ve Visual Studiu?</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Konec s "Console App"</h3>
+                <p>Dosud jsme tvořili projekty typu <em>Konzolová aplikace</em>. Okenní aplikace ve Windows se tvoří pomocí technologie <strong>Windows Forms</strong> (zkráceně WinForms).</p>
+                <p>Ve velkém Visual Studiu máme k dispozici úžasný nástroj: <strong>Vizuální návrhář (Designer)</strong>, kde si okno doslova nakreslíme!</p>
+            </div>
+            <div>
+                <h3>Založení nového projektu</h3>
+                <p>Při zakládání nového projektu ve Visual Studiu už nevybírejte konzoli, ale vyhledejte šablonu:</p>
+<pre><span class="com">Aplikace Windows Forms (.NET)</span>
+<span class="kw">(anglicky: Windows Forms App)</span></pre>
+                <p>Po založení se vám rovnou otevře prázdné šedé okno (Form1) – vaše malířské plátno!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 70: Vizuální návrhář -->
+<div class="slide-container">
+    <h2 class="slide-title">Vizuální návrhář (Kreslíme myší)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Panel nástrojů (Toolbox)</h3>
+                <p>Na levé straně obrazovky (nebo v horním menu <em>Zobrazit -> Panel nástrojů</em>) najdete záložku plnou grafických prvků.</p>
+                <p>Všechny tyto prvky jsou vlastně <strong>Objekty</strong> z OOP, které už za nás naprogramoval Microsoft.</p>
+            </div>
+            <div>
+                <h3>Základní prvky (Controls)</h3>
+                <ul class="bullet-list" style="margin-top: 15px;">
+                    <li><i class="fa-solid fa-hand-pointer" style="position: relative;"></i> <strong>Button:</strong> Klasické klikací tlačítko.</li>
+                    <li><i class="fa-solid fa-font" style="position: relative;"></i> <strong>Label:</strong> Textový popisek na obrazovce.</li>
+                    <li><i class="fa-solid fa-keyboard" style="position: relative;"></i> <strong>TextBox:</strong> Políčko, kam může uživatel psát text.</li>
+                </ul>
+                <p style="margin-top: 20px; color: #42b983; font-weight: bold;">Stačí prvek chytit myší a přetáhnout na okno!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 71: Vlastnosti okno -->
+<div class="slide-container">
+    <h2 class="slide-title">Vlastnosti (Okno Properties)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Měníme vzhled objektů</h3>
+                <p>Když na okno přetáhnete Tlačítko a kliknete na něj, vpravo dole se vám objeví tabulka <strong>Vlastnosti (Properties)</strong>.</p>
+                <p>Zde měníme vlastnosti objektu, přesně jak se to dělá v OOP, akorát vizuálně!</p>
+            </div>
+            <div>
+                <h3>Nejdůležitější Vlastnosti</h3>
+<pre><span class="com">// Mění nápis přímo na tlačítku/okně</span>
+Text: <span class="str">"Klikni na mě!"</span>
+
+<span class="com">// Mění barvu pozadí objektu</span>
+BackColor: <span class="num">Red</span>
+
+<span class="com">// Skutečné JMÉNO proměnné pro kód!</span>
+<span class="com">// Tlačítko se pak v kódu nebude jmenovat button1</span>
+Name: <span class="kw">btnKlikej</span></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 72: Události a Kód -->
+<div class="slide-container">
+    <h2 class="slide-title">Události: Co se stane po kliknutí?</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Oživení tlačítka (Dvojklik)</h3>
+                <p>Tlačítko samo neví, co má dělat. Musíme mu naprogramovat akci.</p>
+                <p><strong>Dvojklikněte myší</strong> přímo na tlačítko v Návrháři! Visual Studio vás okamžitě přepne do kódu (<code>Form1.cs</code>) a automaticky vytvoří metodu pro událost <code>Click</code>.</p>
+            </div>
+            <div>
+                <h3>Kód pro kliknutí (Vyskakovací okno)</h3>
+<pre><span class="com">// Tuto metodu vygeneruje VS samo po dvojkliku:</span>
+<span class="kw">private void</span> <span class="fnc">btnKlikej_Click</span>(<span class="kw">object</span> sender, <span class="cls">EventArgs</span> e)
+{
+    <span class="com">// SEM PÍŠEME NÁŠ KÓD!</span>
+    <span class="com">// Např. vyvoláme vyskakovací hlášku:</span>
+    <span class="cls">MessageBox</span>.<span class="fnc">Show</span>(<span class="str">"Úspěšně jsi kliknul!"</span>);
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 73: Task 16 (Catch the thief) -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #f1c40f; background-color: rgba(241, 196, 15, 0.05);">
+            <h3 style="color: #f1c40f;">🎯 ÚKOL 16: Hra "Chyť zloděje"</h3>
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-window-maximize" style="color: #f1c40f;"></i> Založte projekt <strong>Aplikace Windows Forms</strong> a mírně zvětšete hlavní okno.</li>
+                    <li><i class="fa-solid fa-hand-pointer" style="color: #f1c40f;"></i> Přetáhněte na okno menší tlačítko (<code>Button</code>). Ve Vlastnostech mu změňte <code>Text</code> na "Zloděj", <code>BackColor</code> na červenou a <code>Name</code> na <code>btnZlodej</code>.</li>
+                    <li><i class="fa-solid fa-bolt" style="color: #f1c40f;"></i> <strong>Dvojklikněte na tlačítko!</strong> Úplně nahoru do třídy (nad vygenerovanou metodu) si vytvořte proměnnou <code>int skore = 0;</code></li>
+                    <li><i class="fa-solid fa-code" style="color: #f1c40f;"></i> V metodě pro kliknutí zvedněte <code>skore</code> o 1 a vypište ho do názvu okna: <br><code>this.Text = $"Skóre: {skore}";</code></li>
+                    <li><i class="fa-solid fa-up-down-left-right" style="color: #f1c40f;"></i> <strong>Hlavní trik:</strong> V té samé metodě přesuňte tlačítko na náhodnou pozici! Přidejte kód: <br><code>btnZlodej.Left = Random.Shared.Next(0, 500);</code><br><code>btnZlodej.Top = Random.Shared.Next(0, 300);</code></li>
+                    <li><i class="fa-solid fa-star" style="color: #f1c40f;"></i> <strong>Bonus pro rychlíky:</strong> Přidejte do okna druhé tlačítko ("Past"), které po kliknutí ubere 5 bodů. Nebo ve Vlastnostech (ikona blesku ⚡ nahoře) najděte u zloděje událost <code>MouseEnter</code> a přesuňte skákání tam. Uhne dřív, než kliknete!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 74: Závěr kurzu -->
+<div class="slide-container">
+    <div class="qa-layout">
+        <h2 style="font-size: 65px; color: #42b983; margin-bottom: 20px;">Gratulujeme!</h2>
+        <p style="text-align: center;">Právě jste se posunuli od černé konzole k vývoji skutečných oken a tlačítek.</p>
+        <div class="contact-info" style="text-align: center; margin-top: 40px; color: #8b949e;">
+            Konec základního bloku kurzu. Jste připraveni tvořit vlastní aplikace!
         </div>
     </div>
 </div>
 
 <script>
-    // JS pro simulaci Prezentace s UI aktualizacemi
+// JS pro simulaci Prezentace s UI aktualizacemi
     let currentSlideIndex = 0;
     const slides = document.querySelectorAll('.slide-container');
     const progressBar = document.getElementById('progress-bar');
