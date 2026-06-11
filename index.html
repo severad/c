@@ -1895,18 +1895,40 @@ Name: <span class="kw">btnKlikej</span></pre>
                     <li><i class="fa-solid fa-bolt" style="color: #f1c40f;"></i> <strong>Dvojklikněte na tlačítko!</strong> Úplně nahoru do třídy (nad vygenerovanou metodu) si vytvořte proměnnou <code>int skore = 0;</code></li>
                     <li><i class="fa-solid fa-code" style="color: #f1c40f;"></i> V metodě pro kliknutí zvedněte <code>skore</code> o 1 a vypište ho do názvu okna: <br><code>this.Text = $"Skóre: {skore}";</code></li>
                     <li><i class="fa-solid fa-up-down-left-right" style="color: #f1c40f;"></i> <strong>Hlavní trik:</strong> V té samé metodě přesuňte tlačítko na náhodnou pozici! Přidejte kód: <br><code>btnZlodej.Left = Random.Shared.Next(0, 500);</code><br><code>btnZlodej.Top = Random.Shared.Next(0, 300);</code></li>
-                    <li><i class="fa-solid fa-star" style="color: #f1c40f;"></i> <strong>Bonus pro rychlíky:</strong> Přidejte do okna druhé tlačítko ("Past"), které po kliknutí ubere 5 bodů. Nebo ve Vlastnostech (ikona blesku ⚡ nahoře) najděte u zloděje událost <code>MouseEnter</code> a přesuňte skákání tam. Uhne dřív, než kliknete!</li>
+                    <li><i class="fa-solid fa-star" style="color: #f1c40f;"></i> <strong>Bonus pro experty:</strong> Ve Vlastnostech tlačítka (ikona blesku ⚡ nahoře) najděte událost <code>MouseEnter</code> (najetí myší) a přesuňte skákání tam. Zloděj uhne dřív, než vůbec stihnete kliknout!</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<!-- SLIDE 74: Závěr kurzu -->
+<!-- SLIDE 74: Task 17 (Kalkulacka) -->
+<div class="slide-container">
+    <div class="content-area">
+        <div class="task-box" style="border-color: #3498db; background-color: rgba(52, 152, 219, 0.05);">
+            <h3 style="color: #3498db;">🧮 ÚKOL 17: Vizuální Kalkulačka</h3>
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-window-maximize" style="color: #3498db;"></i> Založte nový WinForms projekt. Z <strong>Toolboxu</strong> přetáhněte do okna: 2x <code>TextBox</code> (pro zadání čísel), 1x <code>Button</code> (tlačítko s textem "+") a 1x <code>Label</code> (pro zobrazení výsledku).</li>
+                    <li><i class="fa-solid fa-bolt" style="color: #3498db;"></i> Dvojklikněte na tlačítko "+", čímž se vytvoří metoda pro kliknutí.</li>
+                    <li><i class="fa-solid fa-keyboard" style="color: #3498db;"></i> <strong>Hint 1:</strong> Získání textu z políčka: <code>string text1 = textBox1.Text;</code></li>
+                    <li><i class="fa-solid fa-calculator" style="color: #3498db;"></i> <strong>Hint 2:</strong> Převod na číslo: <code>int a = int.Parse(text1);</code></li>
+                    <li><i class="fa-solid fa-print" style="color: #3498db;"></i> <strong>Hint 3:</strong> Sečtěte čísla a výsledek vypište do Labelu: <code>label1.Text = $"Výsledek: {a + b}";</code></li>
+                    <li><i class="fa-solid fa-plus-minus" style="color: #3498db;"></i> <strong>Rozšíření:</strong> Přidejte další tlačítka pro odečítání, násobení a dělení!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 75: Závěr kurzu -->
 <div class="slide-container">
     <div class="qa-layout">
-        <h2 style="font-size: 65px; color: #42b983; margin-bottom: 20px;">A jsme na konci.</h2>
-        <p style="text-align: center;">Právě jste se posunuli od černé konzole k vývoji oken a tlačítek.</p>
+        <h2 style="font-size: 65px; color: #42b983; margin-bottom: 20px;">Gratulujeme!</h2>
+        <p style="text-align: center;">Právě jste se posunuli od černé konzole k vývoji skutečných oken a tlačítek.</p>
+        <div class="contact-info" style="text-align: center; margin-top: 40px; color: #8b949e;">
+            Konec základního bloku kurzu. Jste připraveni tvořit vlastní aplikace!
+        </div>
     </div>
 </div>
 
